@@ -16,6 +16,7 @@ class MysqlTool:
     def __init__(self):
         self.conn = None
         self.cursor = None
+        self.timetool = timetool.TimeTool()
 
     def connect(self, host=HOST, port=PORT, user=USER,
                 passwd=PASSWD, db=DB, charset=CHARSET):
@@ -24,7 +25,7 @@ class MysqlTool:
             self.conn = MySQLdb.connect(host=host, port=port, user=user,
                                         passwd=passwd, db=db, charset=charset)
         except MySQLdb.Error as e:
-            error_msg = ('%s 连接mysql失败，原因是：[%d]%s' % (timetool.get_current_time(),
+            error_msg = ('%s 连接mysql失败，原因是：[%d]%s' % (self.timetool.get_current_time(),
                          e.args[0], e.args[1]))
             print error_msg
             return False
@@ -40,7 +41,7 @@ class MysqlTool:
             self.cursor.execute('SET NAMES utf8')
             return self.cursor.execute(sql)
         except MySQLdb.Error as e:
-            error_msg = ('%s mysql查询操作失败，原因是：[%d]%s' % (timetool.get_current_time(),
+            error_msg = ('%s mysql查询操作失败，原因是：[%d]%s' % (self.timetool.get_current_time(),
                          e.args[0], e.args[1]))
             print error_msg
             return False
@@ -50,7 +51,7 @@ class MysqlTool:
         try:
             return self.cursor.fetchone()
         except MySQLdb.Error as e:
-            error_msg = ('%s 获取一行操作失败，原因是：[%d]%s' % (timetool.get_current_time(),
+            error_msg = ('%s 获取一行操作失败，原因是：[%d]%s' % (self.timetool.get_current_time(),
                          e.args[0], e.args[1]))
             print error_msg
             return False
@@ -60,7 +61,7 @@ class MysqlTool:
         try:
             return self.cursor.fetchall()
         except MySQLdb.Error as e:
-            error_msg = ('%s 获取全部操作失败，原因是：[%d]%s' % (timetool.get_current_time(),
+            error_msg = ('%s 获取全部操作失败，原因是：[%d]%s' % (self.timetool.get_current_time(),
                          e.args[0], e.args[1]))
             print error_msg
             return False
@@ -74,7 +75,7 @@ class MysqlTool:
             return self.cursor.rowcount
         except MySQLdb.Error as e:
             self.conn.rollback()
-            error_msg = ('%s dui操作失败，原因是：[%d]%s' % (timetool.get_current_time(),
+            error_msg = ('%s dui操作失败，原因是：[%d]%s' % (self.timetool.get_current_time(),
                          e.args[0], e.args[1]))
             print error_msg
             return False
