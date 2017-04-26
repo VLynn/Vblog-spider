@@ -91,3 +91,6 @@ ENV/
 # middle file
 *.swo
 *.swp
+
+# hide setting file
+setting.py
